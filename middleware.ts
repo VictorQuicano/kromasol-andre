@@ -1,38 +1,55 @@
+import { jwtVerify } from "jose";
 import { NextResponse } from "next/server";
-import type { NextFetchEvent, NextRequest } from "next/server";
-import { precompute } from "flags/next";
-import { precomputeFlags } from "./lib/flags";
-//import { randomUUID } from "crypto";
+import type { NextRequest } from "next/server";
+
+const secret = new TextEncoder().encode(
+  process.env.JWT_SECRET || "tu-secret-key"
+);
+
+export async function middleware(request: NextRequest) {
+  const token = request.cookies.get("token")?.value;
+  const { pathname } = request.nextUrl;
+
+  // Caso especial: si va a /login y ya tiene token válido
+  if (pathname.startsWith("/login") && token) {
+    try {
+      await jwtVerify(token, secret);
+      return NextResponse.redirect(new URL("/dashboard", request.url));
+    } catch {
+      return NextResponse.next();
+    }
+  }
+
+  // Rutas protegidas
+  const protectedRoutes = ["/dashboard", "/profile", "/admin"];
+  const isProtected = protectedRoutes.some((route) =>
+    pathname.startsWith(route)
+  );
+
+  if (isProtected) {
+    if (!token) {
+      return NextResponse.redirect(new URL("/login", request.url));
+    }
+    try {
+      await jwtVerify(token, secret);
+      return NextResponse.next();
+    } catch {
+      return NextResponse.redirect(new URL("/login", request.url));
+    }
+  }
+
+  return NextResponse.next();
+}
 
 export const config = {
-  matcher: ["/", "/product/:path*", "/cart", "/success"],
+  matcher: [
+    "/",
+    "/product/:path*",
+    "/cart",
+    "/success",
+    "/profile/:path*",
+    "/admin/:path*",
+    "/login",
+    "/dashboard/:path*",
+  ],
 };
-
-export async function middleware(request: NextRequest, event: NextFetchEvent) {
-  let response = NextResponse.next();
-
-  const context = {
-    /* pass context on whatever your flag will need */
-    event,
-  };
-
-  // decide precompute flags for the homepage only
-  if (request.nextUrl.pathname === "/") {
-    const code = await precompute(precomputeFlags);
-
-    // rewrites the request to the variant for this flag combination
-    const nextUrl = new URL(
-      `/${code}${request.nextUrl.pathname}${request.nextUrl.search}`,
-      request.url
-    );
-    response = NextResponse.rewrite(nextUrl, { request });
-  }
-
-  // set a shopper cookie if one doesn't exist or has been cleared
-  if (!request.cookies.has("shopper")) {
-    const newShopperId = crypto.randomUUID();
-    response.cookies.set("shopper", newShopperId);
-  }
-
-  return response;
-}

@@ -13,27 +13,19 @@ const cabin = Cabin({
 });
 
 export const metadata: Metadata = {
-  title: "Acme Store",
-  description: "Example Next.js site with Optimizely experimentation",
+  title: "Kromasol by Andrew",
+  description: "Los mejores profuctos para tu salud, de Kromasol para ti",
 };
 
-export default function RootLayout({
+export default function Layout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${cabin.variable} max-w-7xl mx-auto`}>
-        <Header />
+    <html lang="es">
+      <body className={`${cabin.variable} min-w-full`}>
         {children}
-        {/*
-          ⚠️ This shows the toolbar to all visitors
-          See detailed instructions to limit who can see the toolbar for real applications:
-          https://vercel.com/docs/workflow-collaboration/vercel-toolbar/in-production-and-localhost/add-to-production
-        */}
-        <VercelToolbar />
-        <Analytics />
         <Toaster richColors />
       </body>
     </html>
