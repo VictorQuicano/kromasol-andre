@@ -5,6 +5,7 @@ import { useCategories } from "@/hooks/useCategories";
 import ProductForm from "@/components/forms/product-form";
 import { ProductFormData, Filters, Product } from "@/type";
 import toast from "react-hot-toast";
+import Image from "next/image";
 
 export default function ProductsPage() {
   const {
@@ -192,10 +193,12 @@ export default function ProductsPage() {
                     <div className="px-4 py-4 flex flex-col sm:flex-row items-center justify-between">
                       <div className="flex w-full sm:w-auto justify-start sm:justify-normal items-center">
                         {product.imageUrl && (
-                          <img
-                            className="h-10 w-10 rounded-full object-cover"
+                          <Image
+                            className="rounded-full object-cover"
                             src={product.imageUrl}
                             alt={product.name}
+                            width={40}
+                            height={40}
                           />
                         )}
                         <div className="ml-4">

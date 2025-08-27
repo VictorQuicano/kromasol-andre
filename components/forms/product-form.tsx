@@ -30,30 +30,30 @@ export default function ProductForm({
 }: ProductFormProps) {
   const { categories } = useCategories();
 
-  const [formData, setFormData] = useState<ProductFormData>({
-    name: "",
-    description: "",
-    imageUrl: "",
-    videoUrl: "",
-    price: "",
-    categoryId: "",
-  });
+  const [formData, setFormData] = useState<ProductFormData>(() => ({
+    name: product?.name || "",
+    description: product?.description || "",
+    imageUrl: product?.imageUrl || "",
+    videoUrl: product?.videoUrl || "",
+    price: product?.price?.toString() || "",
+    categoryId: product?.categoryId?.toString() || "",
+  }));
 
   const [loading, setLoading] = useState(false);
 
   // Cargar datos del producto si estamos editando
-  useEffect(() => {
-    if (product) {
-      setFormData({
-        name: product.name || "",
-        description: product.description || "",
-        imageUrl: product.imageUrl || "",
-        videoUrl: product.videoUrl || "",
-        price: product.price?.toString() || "",
-        categoryId: product.categoryId?.toString() || "",
-      });
-    }
-  }, [product]);
+  //useEffect(() => {
+  //  if (product) {
+  //    setFormData({
+  //      name: product.name || "",
+  //      description: product.description || "",
+  //      imageUrl: product.imageUrl || "",
+  //      videoUrl: product.videoUrl || "",
+  //      price: product.price?.toString() || "",
+  //      categoryId: product.categoryId?.toString() || "",
+  //    });
+  //  }
+  //}, []); // Solo al montar
 
   const handleChange = (
     e: React.ChangeEvent<

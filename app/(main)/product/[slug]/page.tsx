@@ -6,7 +6,7 @@ import RelatedProducts, {
   RelatedProductsSkeleton,
 } from "@/components/related-products";
 
-export const experimental_ppr = true;
+export const dynamic = "force-dynamic";
 
 export const generateStaticParams = () => {
   return products.slice(0, 3).map((product) => ({
