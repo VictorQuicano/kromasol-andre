@@ -5,11 +5,11 @@ import { generateSlug } from "@/utils/functions";
 
 import { uploadToCloudinary } from "@/utils/cloudinary_utils";
 
-export const config = {
-  api: {
-    bodyParser: false, // importante para recibir archivos
-  },
-};
+//export const config = {
+//  api: {
+//    bodyParser: false, // importante para recibir archivos
+//  },
+//};
 
 const prisma = new PrismaClient();
 

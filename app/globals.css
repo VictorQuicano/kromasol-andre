@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --primary-color: #009fe3;
+  --secondary-color: #2c2c2c;
+}
+
 body {
   font-family: var(--font-rethink_sans), sans-serif;
 }
@@ -13,6 +18,13 @@ h4,
 h5,
 h6 {
   font-family: var(--font-cabin), sans-serif;
+}
+
+h3 {
+  @apply text-5xl md:text-7xl uppercase;
+}
+h4 {
+  @apply text-lg md:text-4xl;
 }
 
 @layer utilities {

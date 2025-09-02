@@ -7,26 +7,13 @@ const prisma = new PrismaClient();
 export async function GET(request: Request) {
   try {
     const [products, total] = await Promise.all([
-      prisma.product.findMany({
-        where,
-        include: {
-          category: true,
-        },
-        skip,
-        take: limit,
-        orderBy: { id: "desc" },
-      }),
-      prisma.product.count({ where }),
+      prisma.banner.findMany(),
+      prisma.banner.count(),
     ]);
 
     return NextResponse.json({
       products,
-      pagination: {
-        page,
-        limit,
-        total,
-        totalPages: Math.ceil(total / limit),
-      },
+      total,
     });
   } catch (error) {
     console.error("Error al obtener productos:", error);
