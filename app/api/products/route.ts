@@ -1,15 +1,17 @@
 import { Prisma } from "@prisma/client";
 import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
+import { generateSlug } from "@/utils/functions";
 
-import { v2 as cloudinary } from "cloudinary";
+import { uploadToCloudinary } from "@/utils/cloudinary_utils";
+
+export const config = {
+  api: {
+    bodyParser: false, // importante para recibir archivos
+  },
+};
 
 const prisma = new PrismaClient();
-const cloudinaryClient = cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_APP_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-});
 
 export async function GET(request: Request) {
   try {
@@ -82,48 +84,52 @@ export async function GET(request: Request) {
   }
 }
 
-// POST - Crear nuevo producto
-export async function POST(request: Request) {
+export async function POST(req: Request) {
   try {
-    const body = await request.json();
-    const { name, description, imageUrl, videoUrl, price, categoryId } = body;
+    const formData = await req.formData();
 
-    // Validaciones básicas
-    if (!name || !price || !categoryId) {
+    const name = formData.get("name") as string | null;
+    const price = formData.get("price") as string | null;
+    const description = formData.get("description") as string | null;
+    const categoryId = formData.get("categoryId") as string | null;
+    const image = formData.get("image") as File | null;
+    const videoUrl = formData.get("videoUrl") as string | null;
+
+    // ✅ Validaciones básicas
+    if (!name || !price || !categoryId || !image) {
       return NextResponse.json(
-        { error: "Nombre, precio y categoría son requeridos" },
+        { error: "Faltan campos obligatorios" },
         { status: 400 }
       );
     }
 
-    // Generar slug único
-    const baseSlug = name
-      .toLowerCase()
-      .replace(/[^\w\s-]/g, "")
-      .replace(/\s+/g, "-");
+    // ✅ Generar slug único
+    const slug = generateSlug(name);
 
-    let slug = baseSlug;
-    let counter = 1;
-
-    while (await prisma.product.findUnique({ where: { slug } })) {
-      slug = `${baseSlug}-${counter}`;
-      counter++;
+    // ✅ Subida de imagen
+    let imageUrl: string;
+    try {
+      imageUrl = await uploadToCloudinary(image, `products`, slug);
+    } catch (err) {
+      console.error("Error al subir la imagen a Cloudinary:", err);
+      return NextResponse.json(
+        { error: "Error al subir la imagen" },
+        { status: 500 }
+      );
     }
 
-    // Crear producto
+    // ✅ Crear producto en DB
     const product = await prisma.product.create({
       data: {
         name,
-        description: description || null,
-        imageUrl: imageUrl || null,
-        videoUrl: videoUrl || null,
+        description,
+        imageUrl,
+        videoUrl,
         price: parseFloat(price),
         slug,
         categoryId: parseInt(categoryId),
       },
-      include: {
-        category: true,
-      },
+      include: { category: true },
     });
 
     return NextResponse.json(product, { status: 201 });
@@ -143,7 +149,5 @@ export async function POST(request: Request) {
       { error: "Error interno del servidor" },
       { status: 500 }
     );
-  } finally {
-    await prisma.$disconnect();
   }
 }

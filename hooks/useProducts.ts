@@ -58,13 +58,21 @@ export const useProducts = () => {
   const createProduct = async (productData: ProductFormData) => {
     setLoading(true);
     setErrorCreate(null);
+
     try {
+      const formData = new FormData();
+      formData.append("name", productData.name);
+      formData.append("price", productData.price.toString());
+      formData.append("categoryId", productData.categoryId.toString());
+      if (productData.description)
+        formData.append("description", productData.description);
+      if (productData.videoUrl)
+        formData.append("videoUrl", productData.videoUrl);
+      if (productData.image) formData.append("image", productData.image); // debe ser un File
+
       const response = await fetch("/api/products", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(productData),
+        body: formData, // 🚀 no ponemos headers, fetch lo maneja
       });
 
       const data = await response.json();
@@ -73,7 +81,6 @@ export const useProducts = () => {
         throw new Error(data.error || "Error al crear producto");
       }
 
-      // Actualizar la lista de productos
       setProducts((prev) => [data, ...prev]);
       return data;
     } catch (err) {
@@ -97,12 +104,21 @@ export const useProducts = () => {
     setErrorCreate(null);
 
     try {
+      const formData = new FormData();
+      if (productData.name) formData.append("name", productData.name);
+      if (productData.price)
+        formData.append("price", productData.price.toString());
+      if (productData.categoryId)
+        formData.append("categoryId", productData.categoryId.toString());
+      if (productData.description)
+        formData.append("description", productData.description);
+      if (productData.videoUrl)
+        formData.append("videoUrl", productData.videoUrl);
+      if (productData.image) formData.append("image", productData.image);
+
       const response = await fetch(`/api/products/${id}`, {
         method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(productData),
+        body: formData,
       });
 
       const data: Product & { error?: string } = await response.json();

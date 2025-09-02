@@ -22,8 +22,9 @@ export interface UpdateProductDto {
   //id: string;
   name?: string;
   description?: string | null;
-  imageUrl?: string | null;
+  image?: File | null;
   videoUrl?: string | null;
+  slug?: string;
   price?: number | string;
   categoryId?: number | string;
 }
@@ -31,6 +32,7 @@ export interface UpdateProductDto {
 export interface ProductFormData {
   name: string;
   description: string;
+  image: File | null;
   imageUrl: string;
   videoUrl: string;
   price: string;

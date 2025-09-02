@@ -1,5 +1,12 @@
 import { PrismaClient, Product } from "@prisma/client";
 import { NextResponse } from "next/server";
+import {
+  uploadToCloudinary,
+  deleteFromCloudinary,
+} from "@/utils/cloudinary_utils";
+
+import { UpdateProductDto } from "@/type";
+import { generateSlug } from "@/utils/functions";
 
 const prisma = new PrismaClient();
 
@@ -44,12 +51,17 @@ export async function PUT(
 ) {
   try {
     const { id } = params;
-    const body: Partial<Product> & {
-      price?: string | number;
-      categoryId?: string | number;
-    } = await request.json();
 
-    const { name, description, imageUrl, videoUrl, price, categoryId } = body;
+    const formData = await request.formData();
+    console.log(formData);
+
+    const name = formData.get("name") as string | null;
+    const price = formData.get("price") as string | null;
+    const description = formData.get("description") as string | null;
+    const categoryId = formData.get("categoryId") as string | null;
+    const image = formData.get("image") as File | null;
+    const videoUrl = formData.get("videoUrl") as string | null;
+    let newSlug;
 
     // Verificar que el producto existe
     const existingProduct = await prisma.product.findUnique({
@@ -66,34 +78,27 @@ export async function PUT(
     // Tipar updateData como Partial<Product>
     const updateData: Partial<Product> = {};
 
-    if (name !== undefined) updateData.name = name;
-    if (description !== undefined) updateData.description = description || null;
-    if (imageUrl !== undefined) updateData.imageUrl = imageUrl || null;
-    if (videoUrl !== undefined) updateData.videoUrl = videoUrl || null;
-    if (price !== undefined) updateData.price = Number(price);
-    if (categoryId !== undefined) updateData.categoryId = Number(categoryId);
-
-    // Si cambia el nombre, generar nuevo slug
     if (name && name !== existingProduct.name) {
-      const baseSlug = name
-        .toLowerCase()
-        .replace(/[^\w\s-]/g, "")
-        .replace(/\s+/g, "-");
-
-      let slug = baseSlug;
-      let counter = 1;
-
-      while (
-        await prisma.product.findFirst({
-          where: { slug, id: { not: parseInt(id, 10) } },
-        })
-      ) {
-        slug = `${baseSlug}-${counter}`;
-        counter++;
-      }
-
+      updateData.name = name;
+      const slug = generateSlug(name);
       updateData.slug = slug;
+      newSlug = slug;
+    } else {
+      newSlug = existingProduct.slug;
     }
+    if (description) {
+      updateData.description = description;
+    }
+    if (image) {
+      await deleteFromCloudinary(existingProduct.imageUrl!);
+      const imageUrl = await uploadToCloudinary(image!, `products`, newSlug);
+      updateData.imageUrl = imageUrl;
+    } else {
+      updateData.imageUrl = existingProduct.imageUrl;
+    }
+    if (videoUrl) updateData.videoUrl = videoUrl || null;
+    if (price) updateData.price = parseFloat(price);
+    if (categoryId) updateData.categoryId = parseInt(categoryId);
 
     // Actualizar producto
     const updatedProduct = await prisma.product.update({
@@ -126,14 +131,13 @@ export async function DELETE(
     const existingProduct = await prisma.product.findUnique({
       where: { id: parseInt(id) },
     });
-
     if (!existingProduct) {
       return NextResponse.json(
         { error: "Producto no encontrado" },
         { status: 404 }
       );
     }
-
+    await deleteFromCloudinary(existingProduct.imageUrl!);
     // Eliminar producto
     await prisma.product.delete({
       where: { id: parseInt(id) },

@@ -7,7 +7,21 @@ import ProductCard from "@/components/product-card";
 export default async function Home() {
   //const [showPromoBanner, setShowPromoBanner] = useState<boolean>(false);
   return (
-    <main className="min-h-screen max-w-5xl py-6 mx-auto">
+    <main className="min-h-screen min-w-full mx-auto">
+      <div className="min-w-full bg-black py-8 flex justify-center items-center">
+        <video
+          autoPlay
+          muted
+          loop
+          style={{ width: "100%" }}
+          className="max-w-5xl"
+        >
+          <source
+            src="https://kromasol.com/wp-content/uploads/2023/05/banner_web-color.mp4"
+            type="video/mp4"
+          />
+        </video>
+      </div>
       {/* 
       <div className="flex flex-col">
         {showPromoBanner && (
