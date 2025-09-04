@@ -78,7 +78,7 @@ export default async function Home() {
         {awards.map((award) => {
           return (
             <div
-              className="relative flex justify-center items-center"
+              className="relative flex justify-end items-center max-h-[149px] min-h-[149px]"
               key={award.id}
             >
               <Image
@@ -88,11 +88,15 @@ export default async function Home() {
                 height={149}
               />
               <div className="text-white flex flex-col max-w-[150px]">
-                <p className="text-sm/7 tracking-tight">{award.category}</p>
-                <h4 className="text-lg/5 uppercase font-semibold text-secondary-color text-wrap line-clamp-none">
-                  {award.title}
-                </h4>
-                <h5 className="text-sm/7 text-wrap">{award.year}</h5>
+                <div className="flex flex-col justify-end items-end">
+                  <p className="text-sm/7 tracking-tight">{award.category}</p>
+                  <div className="flex flex-col">
+                    <h4 className="text-lg/5 uppercase font-semibold text-secondary-color text-wrap line-clamp-none">
+                      {award.title}
+                    </h4>
+                    <h5 className="text-sm/7 text-wrap">{award.year}</h5>
+                  </div>
+                </div>
               </div>
             </div>
           );

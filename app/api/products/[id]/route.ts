@@ -18,11 +18,14 @@ export async function GET(
   try {
     const { id } = context.params;
 
-    const product = await prisma.product.findUnique({
-      where: { id: parseInt(id) },
-      include: {
-        category: true,
+    const product = await prisma.product.findFirst({
+      where: {
+        OR: [
+          { id: isNaN(parseInt(id)) ? undefined : parseInt(id) },
+          { slug: id },
+        ],
       },
+      include: { category: true },
     });
 
     if (!product) {
@@ -64,8 +67,14 @@ export async function PUT(
     let newSlug;
 
     // Verificar que el producto existe
-    const existingProduct = await prisma.product.findUnique({
-      where: { id: parseInt(id, 10) },
+    const existingProduct = await prisma.product.findFirst({
+      where: {
+        OR: [
+          { id: isNaN(parseInt(id)) ? undefined : parseInt(id) },
+          { slug: id },
+        ],
+      },
+      include: { category: true },
     });
 
     if (!existingProduct) {
