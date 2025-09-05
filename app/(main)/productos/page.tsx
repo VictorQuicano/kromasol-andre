@@ -1,12 +1,16 @@
 "use client";
 
-import { useProducts } from "@/hooks/useProducts";
 import { useEffect, useState } from "react";
-import { Filters, Product } from "@/type";
-import { useCategories } from "@/hooks/useCategories";
 import { Search, Filter, Grid, List } from "lucide-react";
-
 import { Category } from "@prisma/client";
+import Image from "next/image";
+
+import { useProducts } from "@/hooks/useProducts";
+import { useCategories } from "@/hooks/useCategories";
+import { logos } from "@/consts";
+import { Filters, Product } from "@/type";
+
+import { ProductCard } from "@/components/ui/product-card";
 
 export default function Products() {
   const { products, fetchProducts, loading } = useProducts();
@@ -22,6 +26,7 @@ export default function Products() {
 
   useEffect(() => {
     fetchProducts(filters);
+    console.log(products);
   }, [filters, fetchProducts]);
 
   const handleChangeCategory = (newCategory: number | null) => {
@@ -44,27 +49,66 @@ export default function Products() {
     return categories?.find((cat) => cat.id === categoryId);
   };
 
+  const getCategoryColor = (categoryId: number | string) => {
+    return categories?.find((cat) => cat.id === categoryId)?.color;
+  };
+
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="flex flex-col w-full md:max-w-7xl flex-1 py-4 px-8">
       {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Productos</h1>
-        <p className="text-gray-600">Explora nuestra colección de productos</p>
+      <div className="p-8">
+        <h1
+          className="text-5xl font-bold text-gray-900 mb-2 uppercase"
+          style={{
+            color:
+              filters.categoryId === ""
+                ? "#ffffff"
+                : getCategoryColor(filters.categoryId),
+          }}
+        >
+          Productos
+        </h1>
+        <div
+          style={{
+            width: "100%",
+            height: "3px",
+            background: `linear-gradient(
+              90deg,
+              ${
+                filters.categoryId === ""
+                  ? "#ffffff"
+                  : getCategoryColor(filters.categoryId)
+              } 0%,
+              ${
+                filters.categoryId === ""
+                  ? "#ffffff"
+                  : getCategoryColor(filters.categoryId)
+              } 49%,
+              rgba(202, 0, 136, 0) 100%
+            ) no-repeat padding-box`,
+          }}
+        />
+
+        <p className="text-gray-400 mt-4">
+          Explora nuestra colección de productos
+        </p>
       </div>
 
       {/* Filtros */}
       <div className="mb-8 space-y-6">
         {/* Barra de búsqueda */}
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-          <input
-            type="text"
-            placeholder="Buscar productos..."
-            value={filters.search}
-            onChange={handleSearchChange}
-            className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          />
-        </div>
+        {products.length > 5 && (
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+            <input
+              type="text"
+              placeholder="Buscar productos..."
+              value={filters.search}
+              onChange={handleSearchChange}
+              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            />
+          </div>
+        )}
 
         {/* Filtros de categoría y vista */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
@@ -90,7 +134,7 @@ export default function Products() {
               <button
                 key={category.id}
                 onClick={() => handleChangeCategory(category.id)}
-                className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
+                className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors flex gap-2 ${
                   filters.categoryId === category.id.toString()
                     ? "text-white"
                     : "bg-gray-100 text-gray-700 hover:bg-gray-200"
@@ -102,7 +146,23 @@ export default function Products() {
                       : undefined,
                 }}
               >
-                {category.name}
+                <Image
+                  src={logos[category.slug]}
+                  alt={category.name}
+                  width={20}
+                  height={20}
+                  className="rounded-full"
+                />
+                <p
+                  style={{
+                    color:
+                      filters.categoryId === category.id.toString()
+                        ? "white"
+                        : category.color,
+                  }}
+                >
+                  {category.name}
+                </p>
               </button>
             ))}
           </div>
@@ -169,60 +229,18 @@ export default function Products() {
 
               return viewMode === "grid" ? (
                 // Vista de grid
-                <div
-                  key={product.id}
-                  className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow overflow-hidden"
-                >
-                  <div className="aspect-square bg-gray-100 relative">
-                    {product.imageUrl ? (
-                      <img
-                        src={product.imageUrl}
-                        alt={product.name}
-                        className="w-full h-full object-cover"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center text-gray-400">
-                        <div className="text-center">
-                          <div className="w-16 h-16 mx-auto mb-2 bg-gray-200 rounded-full flex items-center justify-center">
-                            📦
-                          </div>
-                          <span className="text-sm">Sin imagen</span>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="p-4">
-                    <div className="flex items-center justify-between mb-2">
-                      <h3 className="font-semibold text-gray-900 truncate">
-                        {product.name}
-                      </h3>
-                      {category && (
-                        <span
-                          className="px-2 py-1 text-xs rounded-full text-white"
-                          style={{ backgroundColor: category.color }}
-                        >
-                          {category.name}
-                        </span>
-                      )}
-                    </div>
-
-                    {product.description && (
-                      <p className="text-gray-600 text-sm mb-3 line-clamp-2">
-                        {product.description}
-                      </p>
-                    )}
-
-                    <div className="flex items-center justify-between">
-                      <span className="text-lg font-bold text-blue-600">
-                        ${product.price.toLocaleString()}
-                      </span>
-                      <button className="bg-blue-500 text-white px-3 py-1 rounded-lg text-sm hover:bg-blue-600 transition-colors">
-                        Ver más
-                      </button>
-                    </div>
-                  </div>
-                </div>
+                <ProductCard key={product.id} product={product}>
+                  <Image
+                    src={
+                      product.imageUrl ??
+                      "https://bofrike.in/wp-content/uploads/2021/08/no-product.png"
+                    }
+                    alt={product.description ?? ""}
+                    width={300}
+                    height={300}
+                    className=""
+                  />
+                </ProductCard>
               ) : (
                 // Vista de lista
                 <div

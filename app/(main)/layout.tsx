@@ -58,7 +58,7 @@ export default function Layout({
   ];
 
   return (
-    <div className="w-full">
+    <div className="w-full min-h-screen flex flex-col">
       <Navbar className="bg-black">
         {/* Desktop Navigation */}
         <NavBody>
