@@ -93,7 +93,7 @@ export default function Products() {
           Explora nuestra colección de productos
         </p>
       </div>
-
+      <div className="flex flex-col w-full "></div>
       {/* Filtros */}
       <div className="mb-8 space-y-6">
         {/* Barra de búsqueda */}
@@ -236,9 +236,8 @@ export default function Products() {
                       "https://bofrike.in/wp-content/uploads/2021/08/no-product.png"
                     }
                     alt={product.description ?? ""}
-                    width={300}
-                    height={300}
-                    className=""
+                    fill
+                    className="object-cover"
                   />
                 </ProductCard>
               ) : (

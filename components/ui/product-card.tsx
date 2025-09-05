@@ -14,21 +14,19 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   children,
   wholesalePrice,
 }) => {
+  const count = product.images?.length ?? 0;
+
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const nextImage = () => {
-    if (product.images.length > 1) {
-      setCurrentImageIndex((prev) =>
-        prev === product.images.length - 1 ? 0 : prev + 1
-      );
+    if (count > 1) {
+      setCurrentImageIndex((prev) => (prev === count - 1 ? 0 : prev + 1));
     }
   };
 
   const prevImage = () => {
-    if (product.images.length > 1) {
-      setCurrentImageIndex((prev) =>
-        prev === 0 ? product.images.length - 1 : prev - 1
-      );
+    if (count > 1) {
+      setCurrentImageIndex((prev) => (prev === 0 ? count - 1 : prev - 1));
     }
   };
 
@@ -44,7 +42,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       className="tarjeta-producto"
       style={{
         background: "#fff",
-        borderRadius: "10px",
+        borderRadius: "13px",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -61,8 +59,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         <div
           style={{
             position: "absolute",
-            top: "10px",
-            left: "10px",
+            top: "0px",
+            left: "0px",
             width: "40px",
             height: "40px",
             backgroundImage: `url(${categoryLogo})`,
@@ -83,6 +81,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           <div
             style={{
               width: "100%",
+              minWidth: "300px",
+              minHeight: "300px",
               maxWidth: "300px",
               maxHeight: "300px",
               display: "flex",
@@ -99,10 +99,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({
               </div>
             ) : (
               // Si no hay children, mostramos las imágenes del producto
-              product.images.length > 0 && (
+              count > 0 && (
                 <div className="opcion-galeria activo">
                   <a
-                    href={product.images[currentImageIndex]}
+                    href={product.images?.[currentImageIndex]}
                     className="imagen-galeria"
                     style={{ display: "block", textDecoration: "none" }}
                   >
@@ -121,7 +121,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                     <img
                       alt={`Producto ${product.name}`}
                       className="img-producto"
-                      src={product.images[currentImageIndex]}
+                      src={product.images?.[currentImageIndex]}
                       style={{
                         maxWidth: "100%",
                         maxHeight: "250px",
@@ -136,7 +136,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           </div>
 
           {/* Controles del carrusel - solo si hay múltiples imágenes y no hay children */}
-          {!children && product.images.length > 1 && (
+          {!children && count > 1 && (
             <div
               className="galeria-producto"
               style={{
@@ -182,7 +182,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                 className="__circulos"
                 style={{ display: "flex", gap: "8px" }}
               >
-                {product.images.map((_, index) => (
+                {product.images?.map((_, index) => (
                   <button
                     key={index}
                     onClick={() => goToImage(index)}
@@ -294,71 +294,6 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           </h3>
         </div>
       </div>
-    </div>
-  );
-};
-
-// Ejemplo de uso
-const ExampleUsage = () => {
-  const sampleProduct: Product = {
-    id: "1",
-    name: "Ksms Colosal",
-    description: "Producto antioxidante premium",
-    images: [
-      "https://kromasol.com/wp-content/uploads/2023/05/ksmsColosal-front-PE.png",
-      "https://kromasol.com/wp-content/uploads/2023/05/ksmsColosal-back-PE.png",
-      "https://kromasol.com/wp-content/uploads/2021/11/medidas-caja-colosal.png",
-    ],
-    videoUrl: null,
-    price: 495,
-    categoryId: "1",
-    category: {
-      id: "1",
-      name: "Antioxidante",
-      color: "#ff6b6b",
-      slug: "antioxidante",
-    },
-  };
-
-  return (
-    <div
-      style={{
-        display: "flex",
-        flexWrap: "wrap",
-        justifyContent: "center",
-        padding: "20px",
-      }}
-    >
-      {/* Tarjeta con imágenes del producto */}
-      <ProductCard product={sampleProduct} wholesalePrice={373} />
-
-      {/* Tarjeta con contenido personalizado */}
-      <ProductCard
-        product={{
-          ...sampleProduct,
-          name: "Producto Personalizado",
-          category: { ...sampleProduct.category, slug: "energizante" },
-        }}
-        wholesalePrice={300}
-      >
-        <div
-          style={{
-            width: "250px",
-            height: "250px",
-            background: "linear-gradient(45deg, #ff6b6b, #4ecdc4)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            color: "white",
-            fontSize: "18px",
-            fontWeight: "bold",
-            textAlign: "center",
-            borderRadius: "10px",
-          }}
-        >
-          Contenido Personalizado
-        </div>
-      </ProductCard>
     </div>
   );
 };
