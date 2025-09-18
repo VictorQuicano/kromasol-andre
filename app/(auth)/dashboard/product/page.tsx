@@ -32,7 +32,6 @@ export default function ProductsPage() {
 
   useEffect(() => {
     fetchProducts(filters);
-    console.log(products);
   }, [filters, fetchProducts]);
 
   const handleCreateProduct = async (productData: ProductFormData) => {
