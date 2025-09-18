@@ -30,7 +30,7 @@ export default function Layout({
   const navItems = [
     {
       name: "Conocenos",
-      link: "/conocenos",
+      link: "/home",
     },
     {
       name: "Productos",

@@ -103,7 +103,10 @@ export default function Home() {
           <div className="flex flex-wrap gap-6 items-center justify-center">
             {categories.map((category) => {
               return (
-                <div className="bg-white rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow w-[45%] md:w-[30%]">
+                <div
+                  className="bg-white rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow w-[45%] md:w-[30%]"
+                  key={category.name}
+                >
                   <div className="bg-blue-100 rounded-xl p-4 mb-4">
                     <div className="w-full h-40 bg-gradient-to-br from-green-400 to-green-600 rounded-lg flex items-center justify-center relative">
                       <Image

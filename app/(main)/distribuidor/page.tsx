@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import ProductCard from "@/components/product-card";
 import { motion } from "motion/react";
+import { getConoceMasWhatsappLink } from "@/utils/whatsapp";
 
 export default function Home() {
   //const [showPromoBanner, setShowPromoBanner] = useState<boolean>(false);
@@ -169,6 +170,8 @@ function KromasolPage() {
       img: "https://kromasol.com/wp-content/themes/kromasol/assets/img/compensaciones/icon-impulso.png",
     },
   ];
+  const whatsappLink = getConoceMasWhatsappLink();
+
   return (
     <div className="bg-gradient-to-b from-black from-[25%] via-[#1c487e] via-[73%] to-[#0a131f] to-[100%] py-8 pb-4">
       <div className="max-w-full md:max-w-5xl mx-auto">
@@ -211,11 +214,11 @@ function KromasolPage() {
         </div>
         <div className="w-full flex flex-col justify-center items-center mt-12 relative">
           <h2 className="text-4xl md:text-5xl font-bold mb-4 text-white text-center">
-            ASISTE A TU SUCURSAL MÁS CERCANA
+            Sé parte de este gran equipo
           </h2>
           {/* Llamada a la acción */}
           <motion.a
-            href="/conocenos"
+            href={whatsappLink}
             className="bg-white px-6 py-2 border-primary-color border-2 rounded-lg"
             whileHover={{ scale: 1.1 }}
             transition={{ type: "spring", stiffness: 300 }}
