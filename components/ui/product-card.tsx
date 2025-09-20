@@ -7,12 +7,14 @@ interface ProductCardProps {
   product: Product;
   children?: ReactNode;
   wholesalePrice?: number | string;
+  onClick?: () => void;
 }
 
 export const ProductCard: React.FC<ProductCardProps> = ({
   product,
   children,
   wholesalePrice,
+  onClick,
 }) => {
   const count = product.images?.length ?? 0;
 
@@ -235,7 +237,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
       {/* Título del producto */}
       <h2
-        className="titulo-producto-mx"
+        className={`titulo-producto-mx ${
+          onClick ? "cursor-pointer hover:text-blue-600" : ""
+        }`}
         style={{
           margin: "15px 0 10px 0",
           fontSize: "20px",
@@ -244,6 +248,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           textAlign: "center",
           padding: "0 15px",
         }}
+        onClick={onClick ?? undefined} // solo asigna si existe
       >
         {product.name}
       </h2>

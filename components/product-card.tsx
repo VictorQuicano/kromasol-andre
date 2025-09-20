@@ -12,6 +12,7 @@ export default function ProductCard({
     price: number;
     slug: string;
   };
+  onClick?: () => void;
 }) {
   const { imageSrc, imageAlt, title, price, slug } = product;
   return (

@@ -53,12 +53,27 @@ export default function Home() {
   return (
     <div className="bg-white">
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-purple-600 to-purple-800 py-16 px-4">
+      <section className="bg-gradient-to-r from-cyan-600 to-primary-color py-16 px-4">
+        {/*
+        <div className="max-w-7xl mx-auto h-[800px] flex flex-col items-center justify-center text-center text-white">
+          <h3 className="font-semibold text-3xl md:text-5xl">Familia de</h3>
+          <h1 className="font-semibold text-5xl md:text-7xl uppercase">
+            productos
+          </h1>
+          <div className="relative w-full h-full">
+            <Image
+              src="/familia_productos.png"
+              alt="Familia de productos Kromasol"
+              fill
+            />
+          </div>
+        </div>
+           */}
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-8">
             <div className="text-white">
               <h1 className="text-4xl lg:text-5xl font-bold mb-4">
-                Más de 200 productos de belleza
+                Más de 10 productos para tu salud
                 <span className="block text-yellow-300">y nutrición</span>
               </h1>
               <p className="text-lg mb-6 opacity-90">
@@ -66,7 +81,7 @@ export default function Home() {
                 belleza
               </p>
               <a
-                className="bg-white text-purple-700 px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors"
+                className="bg-white text-primary-color px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors"
                 href="/productos"
               >
                 Ver productos
@@ -74,9 +89,9 @@ export default function Home() {
             </div>
             <div className="relative">
               <div className="bg-white/10 backdrop-blur-sm rounded-full p-8 inline-block">
-                <div className="w-64 h-64 bg-gradient-to-br from-purple-400 to-purple-600 rounded-full flex items-center justify-center">
+                <div className="w-64 h-64 bg-gradient-to-br from-cyan-400 to-cyan-600 rounded-full flex items-center justify-center">
                   <Image
-                    src="/sport_boy.webp"
+                    src="https://kromasol.com/wp-content/uploads/2023/05/vestaGoji-front-PE.png"
                     alt="Persona disfrutando"
                     className="object-contain"
                     fill
@@ -99,7 +114,18 @@ export default function Home() {
             FAMILIA DE PRODUCTOS
           </h2>
         </div>
+
         <div className="max-w-7xl mx-auto">
+          <div className=" w-[99%] md:w-[90%] h-[500px] flex flex-col items-center justify-center text-center text-white">
+            <div className="relative w-full h-full">
+              <Image
+                src="/familia_productos.png"
+                alt="Familia de productos Kromasol"
+                className="object-contain"
+                fill
+              />
+            </div>
+          </div>
           <div className="flex flex-wrap gap-6 items-center justify-center">
             {categories.map((category) => {
               return (
