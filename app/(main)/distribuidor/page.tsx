@@ -115,21 +115,21 @@ function KromasolPage() {
   const awards = [
     {
       id: 1,
-      title: "GANANCIA INMEDIATA",
+      title: "VENTA DIRECTA",
       description:
         "Adquiere tus Productos con tu descuento de Distribuidor y obtén ganacias al entregarlos a Precio Público Sugerido",
       img: "https://kromasol.com/wp-content/themes/kromasol/assets/img/compensaciones/icon-dinero.png",
     },
     {
       id: 2,
-      title: "TU GANANCIA POR INVITAR PERSONAS",
+      title: "AFILIACIÓN",
       description:
         "Invita a más personas y recibe una compensación por las primeras 12 compras que realicen",
       img: "https://kromasol.com/wp-content/themes/kromasol/assets/img/compensaciones/icon-ganancia.png",
     },
     {
       id: 3,
-      title: "HAZ CRECER TU NEGOCIO Y GANA!",
+      title: "REGALIAS",
       description:
         "Invita a más personas y adén un porcentaje de todas las compras que realicen. ¡Cadre en media afiliosa!",
       img: "https://kromasol.com/wp-content/themes/kromasol/assets/img/compensaciones/icon-nivel.png",

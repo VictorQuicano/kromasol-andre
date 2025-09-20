@@ -33,6 +33,7 @@ export default function ProductForm({
   error,
 }: ProductFormProps) {
   const { categories } = useCategories();
+  console.log(categories);
 
   const [formData, setFormData] = useState<ProductFormData>(() => ({
     name: product?.name || "",

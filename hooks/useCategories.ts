@@ -13,6 +13,7 @@ export const useCategories = () => {
     try {
       const response = await fetch("/api/categories");
       const data = await response.json();
+      console.log(data);
 
       if (!response.ok) {
         throw new Error(data.error || "Error al obtener categorías");
