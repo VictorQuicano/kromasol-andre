@@ -23,50 +23,7 @@ export default function Products() {
     page: 1,
   });
 
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>({
-    id: 2,
-    name: "string",
-    description: `
-🌍✨ ¡Bienvenido a esta súper cadena de texto con emojis y palabras mezcladas! 🎉😎 
-
-📚 Aquí encontrarás de todo un poco: ideas 💡, emociones 😂😭😍, comida 🍕🍔🍟🌮🥗🍣🍩, 
-animales 🐶🐱🦁🐯🐵🐸🐧🐙🐢, transporte 🚗🚕🚌🚎🚀✈️⛵🚂, y hasta objetos tecnológicos 💻📱⌚🖥️.  
-
-⚡ La idea es tener un texto lo más largo posible, casi como si fuera una novela 📖, 
-pero con un montón de emojis que lo hacen divertido 🎭 y expresivo 💬.  
-
-❤️🧡💛💚💙💜 Los colores del arcoíris también están aquí 🌈 para que nunca falte alegría.  
-Cuando leas esto, imagínate que es un muro lleno de stickers 🚧🎨 pegados por todos lados.  
-
-🎮 Gamers: 🎧👾🎲🎯🕹️💿.  
-⚽ Deportistas: 🏀🏈⚾🥎🎾🏐🥏🥊.  
-🎶 Músicos: 🎤🎧🎷🎸🎹🥁🎺🎻.  
-🎬 Cine: 🎥📽️🎞️🍿.  
-
-☕ Y claro, nunca falta el café para programar 💻☕🔥.  
-Si alguna vez estás cansado 😴🥱, también hay emojis para recordarlo 🛌🛏️.  
-
-🌟 Recuerda: este texto no tiene un final claro 🚦, porque lo importante es que sea largo 📏📏📏.  
-Podríamos seguir y seguir...  
-👉👉👉 Personas 👩‍💻👨‍💻👩‍🚀👨‍🚀👩‍🍳👨‍🍳👮‍♀️👮‍♂️👷‍♀️👷‍♂️.  
-👉👉👉 Lugares 🏔️🏝️🏜️🏕️🏟️🏛️.  
-👉👉👉 Símbolos 🔥❄️⚡⭐💥💤✔️❌.  
-
-🎉 En conclusión: este string es un collage de palabras y emojis ✨🙌, perfecto para pruebas, diversión o ejemplos.  
-Y aún podríamos seguir escribiendo infinitamente... ♾️♾️♾️.  
-`,
-    images: [],
-    imageUrl: "",
-    videoUrl: "",
-    price: "23.4",
-    categoryId: "2",
-    category: {
-      id: "2",
-      name: "string",
-      color: "string",
-      slug: "string",
-    },
-  });
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
 
