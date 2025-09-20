@@ -180,7 +180,7 @@ export default function Home() {
               <div className="bg-zinc-600 rounded-xl p-6 mb-4">
                 <Users className="w-12 h-12 text-cyan-400 mx-auto" />
               </div>
-              <h3 className="text-6xl font-bold text-cyan-400 mb-2">+34</h3>
+              <h3 className="text-6xl font-bold text-cyan-400 mb-2">+45</h3>
               <p className="text-white">Años de experiencia</p>
             </div>
 
@@ -188,7 +188,7 @@ export default function Home() {
               <div className="bg-zinc-600 rounded-xl p-6 mb-4">
                 <Award className="w-12 h-12 text-cyan-400 mx-auto" />
               </div>
-              <h3 className="text-6xl font-bold text-cyan-400 mb-2">+20</h3>
+              <h3 className="text-6xl font-bold text-cyan-400 mb-2">+11</h3>
               <p className="text-white">Países</p>
             </div>
 
@@ -196,8 +196,10 @@ export default function Home() {
               <div className="bg-zinc-600 rounded-xl p-6 mb-4">
                 <TrendingUp className="w-12 h-12 text-cyan-400 mx-auto" />
               </div>
-              <h3 className="text-6xl font-bold text-cyan-400 mb-2">+7M</h3>
-              <p className="text-white">de clientes en todo el mundo</p>
+              <h3 className="text-6xl font-bold text-cyan-400 mb-2">
+                +700 MIL
+              </h3>
+              <p className="text-white">distribuidores en todo el mundo</p>
             </div>
           </div>
         </div>
@@ -234,7 +236,7 @@ export default function Home() {
                 </div>
                 <div>
                   <h2 className="text-3xl font-bold mb-4">
-                    Transforma tu vida. Súmate a la gente que cree en la gente.
+                    Transforma tu vida. Mereces lo que sueñas!
                   </h2>
                   <button className="bg-white text-purple-700 px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors">
                     Conoce más aquí
@@ -242,15 +244,15 @@ export default function Home() {
                   <div className="mt-6 grid grid-cols-2 gap-4">
                     <div>
                       <div className="flex items-center mb-2">
-                        <Star className="w-5 h-5 text-yellow-400 mr-1" />
+                        <Star className="w-8 h-8 text-yellow-400 mr-1" />
                         <span className="text-sm">
-                          Beneficios principales diarios 40% y 30%
+                          Beneficios y ganancias diárias
                         </span>
                       </div>
                     </div>
                     <div>
                       <div className="flex items-center mb-2">
-                        <Award className="w-5 h-5 text-yellow-400 mr-1" />
+                        <Award className="w-10 h-10 text-yellow-400 mr-1" />
                         <span className="text-sm">
                           Planes de progreso con los productos que ya consumes
                         </span>

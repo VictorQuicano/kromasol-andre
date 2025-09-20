@@ -26,7 +26,6 @@ interface ProductModalProps {
 
 const ProductModal: React.FC<ProductModalProps> = ({ product, onClose }) => {
   // Si no hay producto, no mostrar el modal
-  if (!product) return null;
   const [whatsappLink, setWhatsappLink] = useState<string>("");
 
   useEffect(() => {
@@ -52,8 +51,11 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, onClose }) => {
   };
 
   const displayImage =
-    product.imageUrl ||
-    (product.images && product.images.length > 0 ? product.images[0] : null);
+    product?.imageUrl ||
+    (product?.images && product.images.length > 0 ? product.images[0] : null);
+
+  // ⬇️ Ahora sí puedes retornar condicionalmente
+  if (!product) return null;
 
   return (
     <div
