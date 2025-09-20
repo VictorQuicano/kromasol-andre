@@ -10,5 +10,5 @@ export const logos: Record<string, string> = {
   digestion: "/categorias/icon_digestion.png",
   energizante: "/categorias/icon-energetico.png",
   peso: "/categorias/icon-peso.png",
-  belleza: "categorias/icon-cuidado.png",
+  belleza: "/categorias/icon-cuidado.png",
 };
